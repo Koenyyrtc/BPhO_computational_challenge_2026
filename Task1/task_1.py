@@ -30,6 +30,6 @@ for frame in range(N):
     plt.xlim(-10, 10)
     plt.ylim(-10, 10)
     
-    plt.pause(0.25)
+    plt.pause(0.02)
 
 plt.pause(10)
