@@ -21,7 +21,7 @@ def C(T, element):
     x = (einstein_frequency[element] * h)/(T * kB)
     return 3*R * (x**2 * np.exp(x))/(np.exp(x) - 1)**2
 
-part = int(input("1 for solar irradiance, 2 for heat capacity"))
+part = int(input("1 for solar irradiance, 2 for heat capacity: "))
 
 plt.figure(figsize = (5,5))
 
