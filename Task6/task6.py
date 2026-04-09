@@ -1,19 +1,3 @@
-"""
-Electron Diffraction Ring Simulator
-Task #6 - Physics simulation with phosphor screen visualization
-
-Physics:
-  - de Broglie wavelength: λ = h / sqrt(2 * m_e * e * V)
-  - Bragg condition: 2d*sin(φ/2) = nλ  →  sin(φ/2) = nλ/(2d)
-  - Must satisfy: sin(φ/2) < 1  (physical constraint)
-  - Ring radius on spherical screen: x = r * sin(2φ),  r = 65 mm
-
-Unique Feature:
-  ANIMATED BEAM PULSE — When voltage is changed, an electron beam pulse
-  animates across the tube diagram and the rings "appear" sequentially
-  with a glow fade-in, mimicking how the real experiment works.
-"""
-
 import numpy as np
 import matplotlib
 matplotlib.use("TkAgg")
@@ -38,14 +22,12 @@ phosphor_cmap = LinearSegmentedColormap.from_list(
     [(0, "#000000"), (0.3, "#003300"), (0.7, "#00bb44"), (1.0, "#ccffcc")]
 )
 
-# ── Physics functions ────────────────────────────────────────────────────────
 def de_broglie(V):
     """Return de Broglie wavelength in metres for accelerating voltage V."""
     return h / np.sqrt(2 * m_e * e * V)
 
 def ring_radii(V, d_values, n_max=5):
-    
-    # Return list of (x_mm, d, n, phi) for each valid diffraction ring.
+
     # x = r * sin(2φ),  sin(φ/2) = nλ/(2d)
     
     lam = de_broglie(V)
@@ -61,7 +43,6 @@ def ring_radii(V, d_values, n_max=5):
             rings.append((x * 1e3, d, n, phi))   # x in mm
     return rings
 
-# (1/√V  vs  sin(φ/2))
 def build_verification_data(d_values, n_max=3):
     voltages = np.linspace(V_MIN, V_MAX, 300)
     data = {d: {"inv_sqrtV": [], "sin_half_phi": []} for d in d_values}
@@ -284,15 +265,10 @@ def update_graph_dots(rings):
     else:
         graph_dot_d2.set_data([], [])
 
-# unique faeture = animation
-#  When voltage changes, an electron pulse travels from cathode -> graphite -> screen.
-#  The rings then "fade in" with a glow, exactly mimicking the real experiment.
-
 BEAM_PATH_X = np.array([0.9, 4.4, 7.25])   
 BEAM_PATH_BREAKS = [0, 20, 40]             
 
 def beam_x_at_frame(frame):
-    """Linear interpolation of beam position along tube."""
     if frame <= BEAM_PATH_BREAKS[1]:
         t = frame / BEAM_PATH_BREAKS[1]
         return BEAM_PATH_X[0] + t * (BEAM_PATH_X[1] - BEAM_PATH_X[0])
@@ -307,12 +283,10 @@ def animate(frame):
     f = anim_state.frame
     bx = beam_x_at_frame(f)
 
-    # Beam dot and trail
     trail_start = beam_x_at_frame(max(0, f - 8))
     beam_dot.set_data([bx], [0])
     beam_trail.set_data([trail_start, bx], [0, 0])
 
-    # Fade rings in during second half
     if f >= BEAM_PATH_BREAKS[1]:
         alpha = (f - BEAM_PATH_BREAKS[1]) / (BEAM_PATH_BREAKS[2] - BEAM_PATH_BREAKS[1])
         draw_rings(anim_state.trigger_V, alpha_scale=alpha)
