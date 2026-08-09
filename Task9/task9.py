@@ -1,18 +1,3 @@
-"""
-Compton Scattering Simulator  —  Task #9
-=========================================
-Plots vs photon scattering angle θ (0-180°):
-  1. Fractional wavelength shift  Δλ/λ
-  2. Electron recoil speed  v/c
-  3. Electron recoil angle  φ
-
-Key formulae:
-  Δλ = (h / m_e c)(1 - cosθ)           [Compton shift]
-  λ  = hc / E_photon
-  v  = c √[1 - (m_e c² / (hc/λ - hc/λ' + m_e c²))²]
-  tan φ = sinθ / [1 + (h/m_e c λ)(1 - cosθ) - cosθ]
-"""
-
 import numpy as np
 import matplotlib
 matplotlib.use("TkAgg")
@@ -255,11 +240,9 @@ def update(val):
     L_elec = 1.5 * vc_anim[idx] + 0.3
     ex, ey = L_elec * np.cos(-phi_rad), L_elec * np.sin(-phi_rad)
     elec_arrow.set_positions((0, 0), (ex, ey))
-    # Faster electron → brighter cyan
     cyan_bright = 0.3 + 0.7 * vc_anim[idx]
     elec_arrow.set_color((0.0, cyan_bright, 1.0))
 
-    # Labels
     phot_lbl.set_position((px + 0.1, py + 0.05))
     elec_lbl.set_position((ex + 0.1, ey - 0.15))
     theta_lbl.set_text(f"θ={th:.0f}°")
