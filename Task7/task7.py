@@ -1,35 +1,22 @@
-"""
-Particle in a Box - Schrödinger Equation Solver
-Special Feature: Animated wavefunction time evolution
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.widgets import Slider
 
-# Constants
 hbar = 1.0546e-34   # J·s
-m_e  = 9.1094e-31   # kg (electron mass)
+m_e  = 9.1094e-31   # kg
 eV   = 1.6022e-19   # J per eV
-
-# Box parameters
 a = 0.5e-10         # box width in metres
 x = np.linspace(0, a, 1000)
 
-# Energy levels
 def energy(n, m=m_e, box=a):
     return (hbar**2 * np.pi**2 * n**2) / (2 * m * box**2)
-
-# Wave function
 def psi_spatial(n, x, box=a):
     return np.sqrt(2 / box) * np.sin(n * np.pi * x / box)
 
-# Probability density (time-independent)
 def prob_density(n, x, box=a):
     return psi_spatial(n, x, box)**2
 
-# Energy vs quantum number
 ns   = np.arange(1, 6)
 E_eV = [energy(n) / eV for n in ns]
 
@@ -46,7 +33,6 @@ plt.tight_layout()
 plt.savefig('energy_vs_n.png', dpi=150)
 print("Saved: energy_vs_n.png")
 
-# ── Plot 2: Probability densities |ψ|² for n=1,2,3 ───────────────────────────
 colours = ['royalblue', 'forestgreen', 'crimson']
 fig2, ax2 = plt.subplots(figsize=(7, 5))
 for n, c in zip([1, 2, 3], colours):
@@ -63,14 +49,14 @@ plt.tight_layout()
 plt.savefig('prob_density.png', dpi=150)
 print("Saved: prob_density.png")
 
-# ψ_n(x,t) = ψ_n(x) · e^{-iE_n t/ħ}   →   Re[ψ] = ψ_n(x)·cos(E_n t/ħ)
+# ψ_n(x,t) = ψ_n(x) · e^{-iE_n t/ħ}   ->   Re[ψ] = ψ_n(x)·cos(E_n t/ħ)
 
 fig3, ax3 = plt.subplots(figsize=(8, 5))
 plt.subplots_adjust(bottom=0.2)
 
 n_anim  = 2
-omega   = energy(n_anim) / hbar          # angular frequency
-T       = 2 * np.pi / omega              # period (s)
+omega   = energy(n_anim) / hbar          # angular freq
+T       = 2 * np.pi / omega              
 psi_x   = psi_spatial(n_anim, x)
 
 line_re,  = ax3.plot(x * 1e10, psi_x,        color='dodgerblue', lw=2, label='Re[ψ(x,t)]')
