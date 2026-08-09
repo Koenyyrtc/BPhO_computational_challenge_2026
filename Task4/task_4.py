@@ -218,13 +218,13 @@ electrons = []
 electron_data = []
 frequency = c / 100e-9 
 f_threshold = f_cutoff(material)*1e15
-max_electron_rate = 0.3 # arbitrary, 0 < max_electron_rate < 1
+max_electron_rate = 0.3 # 0 < max_electron_rate < 1
 try:
     max_velocity = math.sqrt(3.2*(h_eV*(frequency*1e-15)-W[material])/m)
 except:
     pass
 voltage_value = 1.0
-d = 5.0 # arbitrary
+d = 5.0 # I just put a reasonable number here
 acceleration = e/(m*d)
 
 def animate(frame):
