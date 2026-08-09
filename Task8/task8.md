@@ -41,14 +41,3 @@ $$P(\text{match}) = P_{AE} \cdot P_{EB} + (1 - P_{AE})(1 - P_{EB})$$
 where $P_{AE} = \cos^2(\varepsilon - \theta)$ and $P_{EB} = \cos^2(\phi - \varepsilon)$.
 
 **Eve raises the mismatch rate** above the quantum prediction. Alice and Bob can detect her by comparing a sample of their results over a classical channel — if the error rate is too high, someone has been listening.
-
-
-## Key Differences
-
-| | Match probability |
-|---|---|
-| Classical | $\cos^2\theta\cos^2\phi + \sin^2\theta\sin^2\phi$ |
-| Quantum | $\cos^2(\phi - \theta)$ |
-| Quantum + Eve | $P_{AE}\cdot P_{EB} + (1-P_{AE})(1-P_{EB})$ |
-
-At θ = 0°, φ = 45°: classical gives P(mismatch) = 0.5, quantum gives P(mismatch) = 0.5 too — but at other angles they diverge, and Eve always pushes mismatch *up*.
